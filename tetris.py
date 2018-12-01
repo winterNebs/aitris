@@ -29,7 +29,6 @@ class Tetris:
         random.seed(seed)
         np.random.seed(seed)
         self.commands = []
-        self.bag = []
         self.play_field = [[]]
         self.hold = Tetromino('n')
         self.play_field_canvas = c
@@ -124,9 +123,10 @@ class Tetris:
 
     def next_piece(self):
         while len(self.queue) < 150:  # generate first 150 blocks
-            self.bag = pieces()
-            np.random.shuffle(self.bag)
-            self.queue.extend(self.bag)
+            #bag = pieces()
+            #np.random.shuffle(bag)
+            #self.queue.extend(bag)
+            self.queue.append('o')
         return Tetromino(self.queue.pop(0))
 
     def render(self):
@@ -318,34 +318,27 @@ class Tetris:
 
     def input_c(self, c):
         self.last_score = 0
-        if self.active:
-            [lambda: self.move(direction=2, times=-1),
-             lambda: self.move(direction=3, times=1),
-             lambda: self.move(direction=1, times=1),
-             lambda: self.move(direction=2, times=1),
-             lambda: self.hold_piece(),
-             lambda: self.rotate(direction=-1),
-             lambda: self.rotate(direction=1),
-             lambda: self.double_rotate(),
-             lambda: self.move(direction=1, times=-1),
-             lambda: self.move(direction=3, times=-1)][c]()
-            self.total_moves += 1
+        for i in range(len(c)):
+            if self.active:
+                [lambda: self.move(direction=2, times=-1),  # HD    # 0
+                 lambda: self.move(direction=3, times=1),   # Left  # 1
+                 lambda: self.move(direction=1, times=1),   # Right # 2
+                 lambda: self.move(direction=2, times=1),   # SD    # 3
+                 lambda: self.hold_piece(),                 # Hold  # 4
+                 lambda: self.rotate(direction=-1),         # CCW   # 5
+                 lambda: self.rotate(direction=1),          # CW    # 6
+                 lambda: self.double_rotate(),              # 180
+                 lambda: self.move(direction=1, times=-1),  # DASR
+                 lambda: self.move(direction=3, times=-1)][c[0]]()
+                self.total_moves += 1
+            else:
+                self.last_score = -self.total_score
+            c.pop(0)
         #print(c)
         self.total_score += self.last_score
         #print(self.total_score)
         if self.play_field_canvas is not None:
             self.render()
-
-    mino_one_hot = {
-        'n': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        'i': [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        'o': [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-        't': [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-        's': [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-        'z': [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        'j': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        'l': [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-    }
 
     def output_data(self):
         data = np.zeros(shape=(29, 10))
@@ -353,9 +346,9 @@ class Tetris:
             for i, block in enumerate(row):
                 data[j][i] = int(block.block_type > 0)
         for i in range(5):
-            data[i+22] = self.mino_one_hot[self.queue[i]]
-        data[27] = self.mino_one_hot[self.hold.shapeName]
-        data[28] = self.mino_one_hot[self.current_piece.shapeName]
+            data[i+22] = Tetromino.one_hot[self.queue[i]]
+        data[27] = Tetromino.one_hot[self.hold.shapeName]
+        data[28] = Tetromino.one_hot[self.current_piece.shapeName]
         data[28][7] = self.current_piece.shapeOrient/3
         data[28][8] = self.current_piece.x / 10
         data[28][9] = self.current_piece.y / 23

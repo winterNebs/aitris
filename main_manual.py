@@ -4,7 +4,7 @@ from tkinter import *
 from tensorflow import keras
 from tensorflow import set_random_seed
 import numpy as np
-
+from movefinder import *
 
 root = Tk()
 root.title("Tetris")
@@ -22,8 +22,11 @@ def key(event):
     print("pressed", event.keysym)
     converter = ['space', 'Left', 'Right', 'Down', 'Shift_L', 's', 'Up', 'd', 'e', 'q']
 
+    #readOutput(tetris.output_data())
+
     tetris.input_c(converter.index(event.keysym))
     tetris.render()
+
 
 
 # Create frame for organizational reasons
