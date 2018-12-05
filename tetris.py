@@ -126,7 +126,7 @@ class Tetris:
             #bag = pieces()
             #np.random.shuffle(bag)
             #self.queue.extend(bag)
-            self.queue.append('o')
+            self.queue.append('t')
         return Tetromino(self.queue.pop(0))
 
     def render(self):

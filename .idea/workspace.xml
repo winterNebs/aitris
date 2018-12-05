@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/movefinder.py" line="53" />
-    <bookmark url="file://$PROJECT_DIR$/main.py" line="162" />
+    <bookmark url="file://$PROJECT_DIR$/movefinder.py" line="52" />
+    <bookmark url="file://$PROJECT_DIR$/main.py" line="170" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb92ff5-9cb9-445c-8e98-de2bec3b88d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/visualizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/save/teris1.h5" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movefinder.py" beforeDir="false" afterPath="$PROJECT_DIR$/movefinder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/save/ais.txt" beforeDir="false" afterPath="$PROJECT_DIR$/save/ais.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetris.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualizer.py" afterDir="false" />
     </list>
     <ignored path="venv/" />
     <ignored path=".idea/" />
@@ -22,7 +27,7 @@
     <SUITE FILE_PATH="coverage/aitris$main_manual.coverage" NAME="main_manual Coverage Results" MODIFIED="1543592149737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/aitris$visualizer.coverage" NAME="visualizer Coverage Results" MODIFIED="1543722867063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/aitris$movefinder.coverage" NAME="movefinder Coverage Results" MODIFIED="1543643980900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/aitris$main.coverage" NAME="main Coverage Results" MODIFIED="1543731472855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/aitris$main.coverage" NAME="main Coverage Results" MODIFIED="1544045979523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-114763977">
@@ -66,25 +71,25 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="15" />
+          <entry key="py" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="15" />
+          <entry key="Python" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="3" />
-          <entry key="py" value="7096" />
-          <entry key="txt" value="300" />
+          <entry key="py" value="9644" />
+          <entry key="txt" value="426" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="303" />
-          <entry key="Python" value="7096" />
+          <entry key="PLAIN_TEXT" value="429" />
+          <entry key="Python" value="9644" />
         </counts>
       </usages-collector>
     </session>
@@ -95,10 +100,10 @@
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="126">
-              <caret line="129" column="30" lean-forward="true" selection-start-line="129" selection-start-column="30" selection-end-line="129" selection-end-column="30" />
+              <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
               <folding>
                 <element signature="e#1#13#0" expanded="true" />
-                <marker date="1543731470920" expanded="true" signature="7480:7482" ph="..." />
+                <marker date="1544046074788" expanded="true" signature="7719:7721" ph="..." />
               </folding>
             </state>
           </provider>
@@ -107,8 +112,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="1250">
+              <caret line="50" selection-start-line="50" selection-end-line="50" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+                <marker date="1543862692876" expanded="true" signature="225:280" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -116,8 +125,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tetromino.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1618">
-              <caret line="159" column="33" selection-start-line="159" selection-start-column="33" selection-end-line="159" selection-end-column="33" />
+            <state relative-caret-position="-10">
+              <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -125,7 +134,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_manual.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-83">
+            <state relative-caret-position="200">
               <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
@@ -137,8 +146,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tetris.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="343" column="39" selection-start-line="343" selection-start-column="39" selection-end-line="343" selection-end-column="39" />
+            <state relative-caret-position="1282">
+              <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -149,12 +158,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/movefinder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="75" column="38" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+            <state relative-caret-position="960">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <marker date="1543689230612" expanded="true" signature="513:719" ph="..." />
-                <marker date="1543689230612" expanded="true" signature="2040:2049" ph="..." />
+                <marker date="1543805377539" expanded="true" signature="513:719" ph="..." />
+                <marker date="1543805377539" expanded="true" signature="2024:2033" ph="..." />
               </folding>
             </state>
           </provider>
@@ -163,12 +172,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tetris_wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+            <state relative-caret-position="630">
+              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
-                <marker date="1543685357223" expanded="true" signature="82:83" ph="..." />
-                <marker date="1543685357223" expanded="true" signature="83:88" ph="..." />
+                <marker date="1543812236691" expanded="true" signature="82:83" ph="..." />
+                <marker date="1543812236691" expanded="true" signature="83:88" ph="..." />
+                <marker date="1543812236691" expanded="true" signature="467:476" ph="..." />
               </folding>
             </state>
           </provider>
@@ -189,7 +199,6 @@
       <find>action_sizeact</find>
       <find>action_size</find>
       <find>last_score</find>
-      <find>bag</find>
       <find>seed</find>
       <find>load</find>
       <find>done</find>
@@ -199,12 +208,20 @@
       <find>active</find>
       <find>output_</find>
       <find>act(</find>
-      <find>print</find>
       <find>random</find>
       <find>PRINT</find>
       <find>state_size</find>
+      <find>ax</find>
+      <find>cx</find>
+      <find>g</find>
+      <find>print</find>
       <find>root</find>
+      <find>bag</find>
     </findStrings>
+    <replaceStrings>
+      <replace>ax2</replace>
+      <replace>ax3</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -216,9 +233,9 @@
         <option value="$PROJECT_DIR$/main_manual.py" />
         <option value="$PROJECT_DIR$/tetromino.py" />
         <option value="$PROJECT_DIR$/tetrisWrapper.py" />
-        <option value="$PROJECT_DIR$/tetris.py" />
-        <option value="$PROJECT_DIR$/tetris_wrapper.py" />
         <option value="$PROJECT_DIR$/movefinder.py" />
+        <option value="$PROJECT_DIR$/tetris_wrapper.py" />
+        <option value="$PROJECT_DIR$/tetris.py" />
         <option value="$PROJECT_DIR$/visualizer.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
@@ -231,10 +248,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="715" />
-    <option name="y" value="149" />
-    <option name="width" value="1159" />
-    <option name="height" value="738" />
+    <option name="x" value="272" />
+    <option name="y" value="-17" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -263,13 +280,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../python/reinforcementetris" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="I:\_Art\program\git\aitris\save" />
       <recent name="I:\_Art\program\python\aitris" />
     </key>
   </component>
@@ -407,7 +425,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543689461781</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Change Log (2018-12-02):&#10;&#10;- Switched to simpler only 'o' game.&#10;- Reorganized some code and finally solved!!!">
+      <created>1543731627508</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1543731627508</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -417,49 +442,26 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Concurrent Activities Diagram" weight="0.32952183" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.3056133" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991684" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010661" side_tool="true" weight="0.06548856" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32952183" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32952183" />
+      <window_info anchor="bottom" id="Concurrent Activities Diagram" order="0" weight="0.32952183" />
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="bottom" id="Find" order="2" />
+      <window_info active="true" anchor="bottom" id="Run" order="3" sideWeight="0.4989339" visible="true" weight="0.3056133" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.3991684" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5010661" side_tool="true" weight="0.06548856" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.32952183" />
+      <window_info anchor="bottom" id="Python Console" order="13" weight="0.32952183" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.19509594" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.16008316" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991684" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010661" side_tool="true" weight="0.06548856" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32952183" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32952183" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -469,7 +471,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Change Log (2018-12-01):&#10;&#10;- Changed game from single move based turns, into a pseudo-positional&#10;turn base&#10;- Added an algorithm to simplify the playing field for hopefully &#10;stronger performance" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change Log (2018-12-01):&#10;&#10;- Changed game from single move based turns, into a pseudo-positional&#10;turn base&#10;- Added an algorithm to simplify the playing field for hopefully &#10;stronger performance" />
+    <MESSAGE value="Change Log (2018-12-02):&#10;&#10;- Switched to simpler only 'o' game.&#10;- Reorganized some code and finally solved!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change Log (2018-12-02):&#10;&#10;- Switched to simpler only 'o' game.&#10;- Reorganized some code and finally solved!!!" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -511,16 +514,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tetris.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="343" column="39" selection-start-line="343" selection-start-column="39" selection-end-line="343" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../python/aitris/venv/Lib/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -535,21 +528,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../python/aitris/venv/Lib/site-packages/matplotlib/artist.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="911" selection-start-line="911" selection-end-line="911" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/threading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="915" selection-start-line="915" selection-end-line="915" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/movefinder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="75" column="38" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+        <state relative-caret-position="960">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <marker date="1543689230612" expanded="true" signature="513:719" ph="..." />
-            <marker date="1543689230612" expanded="true" signature="2040:2049" ph="..." />
+            <marker date="1543805377539" expanded="true" signature="513:719" ph="..." />
+            <marker date="1543805377539" expanded="true" signature="2024:2033" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tetris_wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+            <marker date="1543812236691" expanded="true" signature="82:83" ph="..." />
+            <marker date="1543812236691" expanded="true" signature="83:88" ph="..." />
+            <marker date="1543812236691" expanded="true" signature="467:476" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tetromino.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main_manual.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-83">
+        <state relative-caret-position="200">
           <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
@@ -557,28 +584,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tetromino.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1618">
-          <caret line="159" column="33" selection-start-line="159" selection-start-column="33" selection-end-line="159" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/visualizer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        <state relative-caret-position="1250">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <marker date="1543862692876" expanded="true" signature="225:280" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tetris_wrapper.py">
+    <entry file="file://$PROJECT_DIR$/tetris.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+        <state relative-caret-position="1282">
+          <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
           <folding>
-            <element signature="e#0#20#0" expanded="true" />
-            <marker date="1543685357223" expanded="true" signature="82:83" ph="..." />
-            <marker date="1543685357223" expanded="true" signature="83:88" ph="..." />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -586,10 +608,10 @@
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
-          <caret line="129" column="30" lean-forward="true" selection-start-line="129" selection-start-column="30" selection-end-line="129" selection-end-column="30" />
+          <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
           <folding>
             <element signature="e#1#13#0" expanded="true" />
-            <marker date="1543731470920" expanded="true" signature="7480:7482" ph="..." />
+            <marker date="1544046074788" expanded="true" signature="7719:7721" ph="..." />
           </folding>
         </state>
       </provider>

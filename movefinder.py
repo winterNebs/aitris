@@ -38,9 +38,8 @@ class finder:
         '''[0,0,0,0,x,x,0,0,0,0] <- o,stjlt-1 '''# Start: -4, +9 #
         '''[0,0,0,x,x,0,0,0,0,0] <- stjlt-3'''   # Start: -3, +9 #                         #
         moves = []
-        rotates = []
         for orient in range(len(self.size_data[self.current_piece])):
-            rotates.append(6)
+            rotates = [6] * orient
             offset = 0
             shifts = 11 - self.size_data[self.current_piece][orient]
             if (orient == 0 or orient == 2 or (self.current_piece in 'stjlt' and orient == 3)) and self.current_piece != 'o':

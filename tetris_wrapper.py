@@ -17,5 +17,6 @@ class wrapper:
         self.reset_tetris(c, seed)
 
     def output_data(self):
-        finder = mf.finder(self.tetris.output_data())
-        return finder.data
+        #finder = mf.finder(self.tetris.output_data())
+        #return finder.data
+        return self.tetris.output_data()
