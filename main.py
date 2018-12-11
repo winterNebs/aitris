@@ -7,8 +7,8 @@ from tkinter import *
 from visualizer import vis
 r = random.Random(0)
 npr = np.random.RandomState(0)
-
-
+STATE_SIZE = (29,10,1)
+TRAIN_SIZE = [1, 29, 10, 1]
 class Network:
 
     def __init__(self, state_size, action_size):
@@ -24,10 +24,36 @@ class Network:
 
     def gen_model(self):
         model = keras.Sequential()
-        model.add(keras.layers.Dense(2048, input_dim=self.state_size, activation="relu"))
-        #model.add(keras.layers.Dense(1024,  activation="relu"))
-        #model.add(keras.layers.Dense(512,  activation="relu"))
-        model.add(keras.layers.Dense(self.action_size, activation='linear'))
+
+        '''model.add(keras.layers.Conv2D(32, kernel_size=3,
+                         activation='relu',
+                         input_shape=self.state_size))
+        model.add(keras.layers.Conv2D(64, kernel_size=3, activation='relu'))
+        model.add(keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        model.add(keras.layers.Conv2D(64, kernel_size=3, activation='relu'))
+        model.add(keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        model.add(keras.layers.Flatten())
+        model.add(keras.layers.Dense(self.action_size, activation='softmax'))'''
+        model.add(keras.layers.Conv2D(32, (29, 1), padding='same', activation='relu', input_shape=self.state_size))
+        model.add(keras.layers.Conv2D(32, (1, 10), padding='same',  activation='relu'))
+        #model.add(keras.layers.Conv2D(64, (2, 10),padding='same',  activation='relu'))
+        model.add(keras.layers.MaxPooling2D(pool_size=(29, 1)))
+        #model.add(keras.layers.Dropout(0.25))
+        '''
+        model.add(keras.layers.Conv2D(64, (2, 10), padding='same', activation='relu', input_shape=self.state_size))
+        model.add(keras.layers.Conv2D(64, (2, 10), activation='relu'))
+        # model.add(keras.layers.MaxPooling2D(pool_size=(12, 5)))
+        model.add(keras.layers.Dropout(0.25))
+
+        model.add(keras.layers.Conv2D(64, (2, 10), padding='same', activation='relu', input_shape=self.state_size))
+        model.add(keras.layers.Conv2D(64, (1, 10), activation='relu'))
+        # model.add(keras.layers.MaxPooling2D(pool_size=(12, 5)))
+        model.add(keras.layers.Dropout(0.25))
+        '''
+        model.add(keras.layers.Flatten())
+        model.add(keras.layers.Dense(64, activation='relu'))
+        #model.add(keras.layers.Dropout(0.5))
+        model.add(keras.layers.Dense(self.action_size, activation='softmax'))
         model.compile(loss="mean_squared_error", optimizer=keras.optimizers.Adam(lr=self.learning_rate))
         return model
 
@@ -65,7 +91,6 @@ class Network:
 
 
 def train(agent, input_log):
-    state_size = 290
     root = Tk()
     root.title("Tetris")
 
@@ -78,7 +103,7 @@ def train(agent, input_log):
     game = wrapper.tetris
     # game = Tetris()
     state = wr.output_data()
-    state = np.reshape(state, [1, state_size])
+    state = np.reshape(state, TRAIN_SIZE)
 
     for command in input_log:
         #env.render()
@@ -91,7 +116,7 @@ def train(agent, input_log):
         reward = game.reward()
         done = not game.active
         reward = reward if not done else -10
-        next_state = np.reshape(next_state, [1, state_size])
+        next_state = np.reshape(next_state, TRAIN_SIZE)
         agent.remember(state, action, reward, next_state, done)
         state = next_state
 
@@ -106,10 +131,9 @@ def run_ai(parent_window, frame):
     v = vis(root)
     seed = 0
     wr = wrapper()
-    state_size = 290
     action_size = wr.action_space
 
-    agent = Network(state_size, action_size)
+    agent = Network(STATE_SIZE, action_size)
     # train(agent, [6, 9, 0, 5, 8, 0, 9, 2, 0, 9, 0, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 0, 8, 0, 5, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 0, 6, 0, 2, 2, 0, 5, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 2, 2, 2, 0, 0, 6, 2, 0, 9, 0, 1, 0, 9, 6, 1, 0, 6, 8, 0, 5, 9, 2, 0, 8, 1, 0, 5, 0, 6, 2, 0, 9, 0, 8, 0, 8, 1, 0, 9, 6, 0, 5, 0, 8, 0, 6, 9, 0, 2, 2, 0, 8, 1, 0, 2, 2, 0, 6, 0, 7, 1, 0, 1, 0, 1, 0, 7, 0, 7, 8, 1, 0, 6, 8, 0, 5, 1, 0, 9, 0, 2, 0, 6, 9, 0, 6, 9, 2, 0, 8, 1, 0, 5, 2, 0, 2, 6, 2, 0, 6, 8, 0, 1, 0, 0, 9, 2, 0, 0, 2, 2, 6, 0, 5, 1, 0, 6, 8, 0, 6, 9, 0, 6, 8, 1, 0, 5, 9, 0, 2, 2, 5, 2, 0, 2, 0, 5, 1, 0, 0, 9, 2, 0, 6, 9, 0, 7, 9, 2, 0, 5, 8, 1, 0, 6, 8, 0, 6, 9, 0, 8, 1, 1, 0, 0, 0, 5, 1, 0, 7, 0, 6, 8, 0, 7, 9, 0, 9, 0, 6, 8, 0, 6, 9, 2, 2, 0, 6, 2, 2, 0, 6, 8, 1, 0, 6, 8, 0, 5, 8, 9, 9, 2, 2, 2, 2, 2, 0, 5, 9, 0, 7, 0, 0, 9, 6, 9, 0, 6, 1, 1, 0, 7, 0, 2, 6, 2, 0, 6, 1, 1, 1, 0, 2, 6, 2, 2, 2, 0, 1, 9, 0, 0, 8, 1, 1, 0, 5, 8, 0, 7, 1, 1, 0, 9, 6, 2, 6, 6, 8, 0, 6, 9, 0, 8, 0, 7, 8, 0, 0, 5, 9, 2, 0, 5, 2, 5, 0, 0, 6, 2, 0, 8, 0, 6, 9, 2, 0, 6, 9, 0, 6, 9, 0, 5, 0, 9, 2, 2, 0, 2, 2, 5, 2, 0, 6, 0, 5, 0, 1, 1, 6, 0, 9, 5, 0, 2, 2, 0, 6, 8, 0, 7, 8, 1, 0, 8, 0, 6, 0, 8, 0, 8, 0, 2, 2, 0, 6, 0, 5, 1, 0, 6, 9, 0, 8, 0, 2, 6, 2, 0, 5, 1, 0, 6, 9, 0, 6, 9, 2, 0, 8, 6, 1, 0, 5, 0, 5, 8, 8, 0, 6, 2, 0, 5, 1, 1, 0, 6, 9, 0, 2, 2, 0, 0, 6, 1, 1, 0, 2, 0, 8, 0, 7, 9, 2, 0, 2, 6, 0, 5, 0, 6, 8, 1, 0, 6, 8, 0, 9, 0, 2, 2, 0, 8, 5, 0, 5, 9, 0, 7, 1, 0, 6, 9, 0, 2, 0, 6, 8, 1, 0, 1, 7, 0, 6, 8, 0, 7, 0, 5, 8, 1, 0, 9, 2, 0, 1, 0, 2, 0, 5, 9, 0, 7, 8, 1, 0, 6, 2, 0, 1, 0, 8, 0, 6, 0, 6, 0, 5, 1, 0, 6, 9, 0, 9, 0, 2, 6, 2, 0, 6, 6, 8, 0, 6, 1, 1, 0, 2, 0, 5, 1, 0, 9, 0, 6, 2, 8, 1, 0, 6, 2, 8, 0, 8, 1, 0, 2, 0, 6, 8, 0, 0, 9, 0, 6, 1, 1, 0, 6, 9, 0, 2, 6, 2, 2, 0, 8, 7, 1, 1, 0, 0, 6, 9, 2, 0, 6, 8, 0, 2, 0, 5, 2, 2, 2, 0, 1, 6, 1, 5, 5, 2, 0, 1, 2, 0, 6, 1, 9, 2, 0, 6, 9, 0, 5, 1, 1, 1, 0, 2, 2, 0, 8, 5, 2, 0, 0, 6, 1, 1, 1, 0, 2, 8, 0, 6, 0, 2, 6, 2, 0, 2, 5, 1, 6, 6, 1, 0, 5, 1, 9, 0, 2, 0, 6, 2, 8, 0, 6, 8, 1, 0, 0, 2, 5, 1, 1, 1, 1, 1, 0, 6, 2, 2, 1, 0, 2, 5, 2, 2, 0, 1, 6, 1, 1, 2, 0, 5, 0, 1, 6, 1, 1, 1, 1, 0, 2, 0, 0, 6, 1, 1, 0, 7, 1, 1, 0, 6, 8, 0, 6, 8, 0, 8, 5, 0, 8, 1, 0, 6, 9, 0, 9, 2, 0, 9, 0, 5, 1, 0, 8, 6, 6, 0, 5, 2, 2, 0, 5, 0, 5, 0, 9, 0, 2, 6, 2, 0, 2, 6, 0, 5, 1, 1, 0, 5, 2, 0, 8, 0, 8, 0, 8, 5, 0, 6, 9, 0, 6, 8, 0, 5, 9, 0, 9, 2, 2, 0, 9, 5, 1, 0, 5, 9, 0])
     #agent.load("./save/teris1.h5") #Load old ai
     batch_size = 32
@@ -125,7 +149,7 @@ def run_ai(parent_window, frame):
         game = wr.reset_tetris(c=canvas, seed=seed)
         # seed += 1
         state = wr.output_data()
-        state = np.reshape(state, [1, state_size])
+        state = np.reshape(state, TRAIN_SIZE)
         parent_window.update()
         first = r.randint(0, 34)
         # print(first)
@@ -144,7 +168,7 @@ def run_ai(parent_window, frame):
             reward = game.reward()
             done = not game.active
             reward = reward if not done else -game.total_score * 2
-            next_state = np.reshape(next_state, [1, state_size])
+            next_state = np.reshape(next_state, TRAIN_SIZE)
             agent.remember(state, action, reward, next_state, done)
             state = next_state
             if done or time == 598:
