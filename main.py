@@ -18,7 +18,7 @@ class Network:
         self.gamma = .90  # (Short sighted) 0 : 1+ (long term/divergent)
         self.epsilon = 1.0
         self.epsilon_min = 0.01
-        self.epsilon_decay = 0.99992
+        self.epsilon_decay = 0.99994
         self.learning_rate = 0.001
         self.model = self.gen_model()
 
@@ -99,7 +99,7 @@ def train(agent, input_log):
     root.destroy()
 
 
-EPISODES = 3000
+EPISODES = 6000
 
 
 def run_ai(parent_window, frame):
@@ -129,7 +129,7 @@ def run_ai(parent_window, frame):
         parent_window.update()
         first = r.randint(0, 34)
         # print(first)
-        if e > EPISODES:
+        if e < EPISODES:
             wr.act_hd(first) #RNG START
         for time in range(600):
             parent_window.update()

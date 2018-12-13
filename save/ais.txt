@@ -1,1 +1,4 @@
 o-ai.h5 (32, 64 relu, 32 relu, linear)
+t-ai.h5 (1024 relu, linear) don't use simplify()
+t-ai-1.h5 (2048 relu, linear) after 5000~ trials
+all-ai.h5 (2048 relu, linear) https://i.imgur.com/UDXSUeq.png

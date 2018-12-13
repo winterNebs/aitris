@@ -123,10 +123,10 @@ class Tetris:
 
     def next_piece(self):
         while len(self.queue) < 150:  # generate first 150 blocks
-            #bag = pieces()
-            #np.random.shuffle(bag)
-            #self.queue.extend(bag)
-            self.queue.append('t')
+            bag = pieces()
+            np.random.shuffle(bag)
+            self.queue.extend(bag)
+            #self.queue.append('t')
         return Tetromino(self.queue.pop(0))
 
     def render(self):
