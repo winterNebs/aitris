@@ -62,7 +62,7 @@ class finder:
         for x in range(len(self.board[0])):
             depth.append(0)
             for y in range(len(self.board)):
-                if self.board[y][x] == 0:
+                if self.board[y][x] != 1:
                     if y > depth[x]:
                         depth[x] = y
                 else:

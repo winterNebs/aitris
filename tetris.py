@@ -201,7 +201,7 @@ class Tetris:
     def lock(self):  # For now unforgiving
         linescleared = set()
         for point in self.current_piece.get_coords():
-            if point.y == 2:
+            if point.y == 10:
                 self.active = False
             self.play_field[point.y][point.x] = Block(Tetromino.int_shape[self.current_piece.shapeName])
             line = True
@@ -331,6 +331,7 @@ class Tetris:
                  lambda: self.move(direction=1, times=-1),  # DASR
                  lambda: self.move(direction=3, times=-1)][c[0]]()
                 self.total_moves += 1
+                self.input_log.append(c[0])
             else:
                 self.last_score = -self.total_score
             c.pop(0)
@@ -352,6 +353,8 @@ class Tetris:
         data[28][7] = self.current_piece.shapeOrient/3
         data[28][8] = self.current_piece.x / 10
         data[28][9] = self.current_piece.y / 23
+        for i, block in enumerate(self.current_piece.get_coords()):
+            data[block.y][block.x] = 0.5
         # print(len(two_pac))
         return data
 

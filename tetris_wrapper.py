@@ -3,11 +3,12 @@ import movefinder as mf
 
 class wrapper:
     action_space = 34
-
+    #action_space = 10
     def act_hd(self, action):
         finder = mf.finder(self.tetris.output_data())
         hds = finder.hard_drops()
         self.tetris.input_c(hds[action % len(hds)])
+        #self.tetris.input_c([action])
 
     def reset_tetris(self, c=None, seed=1):
         self.tetris = Tetris(c, seed)
