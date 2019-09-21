@@ -7,3 +7,8 @@ Currently using a Deep Q-Learning model.
 Training time took about 50 hours.
 
 Planning to upgrade hardware and rewrite the project entirely. 
+
+
+-- Newest progress --
+https://i.imgur.com/eMNCj8E.gifv
+not bad I guess 
