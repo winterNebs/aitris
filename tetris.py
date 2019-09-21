@@ -201,7 +201,7 @@ class Tetris:
     def lock(self):  # For now unforgiving
         linescleared = set()
         for point in self.current_piece.get_coords():
-            if point.y == 10:
+            if point.y == 14:
                 self.active = False
             self.play_field[point.y][point.x] = Block(Tetromino.int_shape[self.current_piece.shapeName])
             line = True
