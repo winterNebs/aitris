@@ -5,11 +5,11 @@
     <bookmark url="file://$PROJECT_DIR$/main.py" line="139" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb92ff5-9cb9-445c-8e98-de2bec3b88d6" name="Default Changelist" comment="Change Log (2019-01-13):&#10;&#10;- mildly functional&#10;- getting new gpu, so hopefully gpu training will be possible">
-      <change beforePath="$PROJECT_DIR$/.idea/aitris.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aitris.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8bb92ff5-9cb9-445c-8e98-de2bec3b88d6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetris.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +131,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/venv" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -255,7 +255,8 @@
       <option name="presentableId" value="Default" />
       <updated>1543541846500</updated>
       <workItem from="1637607053701" duration="489000" />
-      <workItem from="1637607555993" duration="223000" />
+      <workItem from="1637607555993" duration="2395000" />
+      <workItem from="1637616445091" duration="2502000" />
     </task>
     <task id="LOCAL-00001" summary="Change Log (2018-12-01):&#10;&#10;- Changed game from single move based turns, into a pseudo-positional&#10;turn base&#10;- Added an algorithm to simplify the playing field for hopefully &#10;stronger performance">
       <created>1543689461781</created>
@@ -285,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547407158923</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Update project">
+      <created>1637607817907</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1637607817907</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -348,7 +356,8 @@
     <MESSAGE value="Change Log (2018-12-02):&#10;&#10;- Switched to simpler only 'o' game.&#10;- Reorganized some code and finally solved!!!" />
     <MESSAGE value="Change Log (2018-12-13):&#10;&#10;- All piece ai working alright, going to try changing how data is output" />
     <MESSAGE value="Change Log (2019-01-13):&#10;&#10;- mildly functional&#10;- getting new gpu, so hopefully gpu training will be possible" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change Log (2019-01-13):&#10;&#10;- mildly functional&#10;- getting new gpu, so hopefully gpu training will be possible" />
+    <MESSAGE value="Update project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update project" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -357,6 +366,9 @@
         <watch expression="next_state" language="Python" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/aitris$main.coverage" NAME="main Coverage Results" MODIFIED="1637619641421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">

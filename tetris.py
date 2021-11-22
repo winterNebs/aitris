@@ -353,8 +353,8 @@ class Tetris:
         data[28][7] = self.current_piece.shapeOrient/3
         data[28][8] = self.current_piece.x / 10
         data[28][9] = self.current_piece.y / 23
-        for i, block in enumerate(self.current_piece.get_coords()):
-            data[block.y][block.x] = 0.5
+        #for i, block in enumerate(self.current_piece.get_coords()):
+        #   data[block.y][block.x] = 0.5
         # print(len(two_pac))
         return data
 
