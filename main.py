@@ -1,105 +1,76 @@
-import keras
-import numpy as np
 import random
-from collections import deque
 from tetris_wrapper import wrapper
-from tkinter import *
+import tkinter as tk
 from visualizer import vis
-r = random.Random(0)
-npr = np.random.RandomState(0)
+import tensorflow as tf
+import numpy as np
+from numpy.random import default_rng
+from tensorflow import keras
+from tensorflow.keras import layers
+
+rng = default_rng()
+seed = 42
+gamma = 0.99
+epsilon = 1.0
+epsilon_min = 0.1
+epsilon_max = 1.0
+epsilon_interval = epsilon_max - epsilon_min
+batch_size = 32
+max_steps_per_episode = 1000
 
 
-class Network:
+def create_q_network():
+    inputs = layers.Input(shape=(10, 29, 1,))
+    layer1 = layers.Conv2D(32, 8, strides=4, activation="relu")(inputs)
+    layer2 = layers.Conv2D(64, 4, strides=2, activation="relu")(layer1)
+    layer3 = layers.Conv2D(64, 3, strides=1, fctivation="relu")(layer2)
 
-    def __init__(self, state_size, action_size):
-        self.state_size = state_size
-        self.action_size = action_size
-        self.memory = deque(maxlen=10000)
-        self.gamma = .90  # (Short sighted) 0 : 1+ (long term/divergent)
-        self.epsilon = 1.0
-        self.epsilon_min = 0.01
-        self.epsilon_decay = 0.999
-        self.learning_rate = 0.001
-        self.model = self.gen_model()
+    layer4 = layers.Flatten()(layer3)
 
-    def gen_model(self):
-        model = keras.Sequential()
-        model.add(keras.layers.Dense(512, input_dim=self.state_size, activation="relu"))
-        #model.add(keras.layers.Dense(1024,  activation="relu"))
-        #model.add(keras.layers.Dense(512,  activation="relu"))
-        model.add(keras.layers.Dense(self.action_size, activation='linear'))
-        model.compile(loss="mean_squared_error", optimizer=keras.optimizers.Adam(lr=self.learning_rate))
-        return model
+    layer5 = layers.Dense(512, activation="relu")(layer4)
+    action = layers.Dense(wrapper.action_space, activation="linear")(layer5)
 
-    def remember(self, state, action, reward, next_state, done):
-        self.memory.append((state, action, reward, next_state, done))
-
-    def act(self, state):
-        if npr.rand() <= self.epsilon:
-            return npr.randint(low=0, high=self.action_size)
-        act_values = self.model.predict(state)
-        #print(act_values)
-        return np.argmax(act_values[0])  # returns action
-
-    def replay(self, batch_size):
-        minibatch = r.sample(self.memory, batch_size)
-        for state, action, reward, next_state, done in minibatch:
-            target = reward
-            if not done:
-                target = (reward + self.gamma *
-                          np.amax(self.model.predict(next_state)[0]))
-            target_f = self.model.predict(state)
-            target_f[0][action] = target
-            self.model.fit(state, target_f, epochs=1, verbose=0)
-        if self.epsilon > self.epsilon_min:
-            #print(self.epsilon, self.epsilon * self.epsilon_decay)
-            self.epsilon *= self.epsilon_decay
-
-    def load(self, name):
-        self.model.load_weights(name)
-        self.epsilon = self.epsilon_min
-        #self.epsilon = 0.35
-
-    def save(self, name):
-        self.model.save_weights(name)
+    return keras.Model(inputs=inputs, outputs=action)
 
 
-def train(agent, input_log):
-    state_size = 290
-    root = Tk()
-    root.title("Tetris")
+model = create_q_network()
+model_target = create_q_network()
 
-    frame = Frame(root, width=1000, height=1000)
-    canvas = Canvas(frame, width=400, height=600)
-    canvas.pack()
-    frame.pack()
+optimizer = keras.optimizers.Adam(learning_rate=0.00025, clipnorm=1.0)
+action_history = []
+state_history = []
+state_next_history = []
+rewards_history = []
+done_history = []
+episode_reward_history = []
+running_reward = 0
+episode_count = 0
+frame_count = 0
+# Number of frames to take random action and observe output
+epsilon_random_frames = 50000
+# Number of frames for exploration
+epsilon_greedy_frames = 1000000.0
+# Maximum replay length
+# Note: The Deepmind paper suggests 1000000 however this causes memory issues
+max_memory_length = 100000
+# Train the model after 4 actions
+update_after_actions = 4
+# How often to update the target network
+update_target_network = 10000
+# Using huber loss for stability
+loss_function = keras.losses.Huber()
 
-    wr = wrapper(c=canvas)
-    game = wrapper.tetris
-    # game = Tetris()
-    state = wr.output_data()
-    state = np.reshape(state, [1, state_size])
+while True:
+    wr = wrapper()
+    wr.reset_tetris()
+    state = np.array(wr.output_data())
+    episode_reward = 0
 
-    for command in input_log:
-        #env.render()
-        root.update()
-        #cmd = ['hd', 'l', 'r', 'sd', 'h', 'ccw', 'cw', '180', 'dasr', 'dasl']
-        action = command
-        #cmd.index(command)
-        wr.act_hd(action)
-        next_state = wr.output_data()
-        reward = game.reward()
-        done = not game.active
-        reward = reward if not done else -10
-        next_state = np.reshape(next_state, [1, state_size])
-        agent.remember(state, action, reward, next_state, done)
-        state = next_state
+    for step in range(max_steps_per_episode):
+        frame_count += 1
 
-    agent.replay(int(len(input_log)/4))
-    root.destroy()
-
-
-EPISODES = 6000
+        if frame_count < epsilon_random_frames or epsilon > rng.random():
+            action = rng.ran(low=0, high=wrapper.action_space, size=1)[0]
 
 
 def run_ai(parent_window, frame):
@@ -111,7 +82,7 @@ def run_ai(parent_window, frame):
 
     agent = Network(state_size, action_size)
     # train(agent, [6, 9, 0, 5, 8, 0, 9, 2, 0, 9, 0, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 0, 8, 0, 5, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 0, 6, 0, 2, 2, 0, 5, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 2, 2, 2, 0, 0, 6, 2, 0, 9, 0, 1, 0, 9, 6, 1, 0, 6, 8, 0, 5, 9, 2, 0, 8, 1, 0, 5, 0, 6, 2, 0, 9, 0, 8, 0, 8, 1, 0, 9, 6, 0, 5, 0, 8, 0, 6, 9, 0, 2, 2, 0, 8, 1, 0, 2, 2, 0, 6, 0, 7, 1, 0, 1, 0, 1, 0, 7, 0, 7, 8, 1, 0, 6, 8, 0, 5, 1, 0, 9, 0, 2, 0, 6, 9, 0, 6, 9, 2, 0, 8, 1, 0, 5, 2, 0, 2, 6, 2, 0, 6, 8, 0, 1, 0, 0, 9, 2, 0, 0, 2, 2, 6, 0, 5, 1, 0, 6, 8, 0, 6, 9, 0, 6, 8, 1, 0, 5, 9, 0, 2, 2, 5, 2, 0, 2, 0, 5, 1, 0, 0, 9, 2, 0, 6, 9, 0, 7, 9, 2, 0, 5, 8, 1, 0, 6, 8, 0, 6, 9, 0, 8, 1, 1, 0, 0, 0, 5, 1, 0, 7, 0, 6, 8, 0, 7, 9, 0, 9, 0, 6, 8, 0, 6, 9, 2, 2, 0, 6, 2, 2, 0, 6, 8, 1, 0, 6, 8, 0, 5, 8, 9, 9, 2, 2, 2, 2, 2, 0, 5, 9, 0, 7, 0, 0, 9, 6, 9, 0, 6, 1, 1, 0, 7, 0, 2, 6, 2, 0, 6, 1, 1, 1, 0, 2, 6, 2, 2, 2, 0, 1, 9, 0, 0, 8, 1, 1, 0, 5, 8, 0, 7, 1, 1, 0, 9, 6, 2, 6, 6, 8, 0, 6, 9, 0, 8, 0, 7, 8, 0, 0, 5, 9, 2, 0, 5, 2, 5, 0, 0, 6, 2, 0, 8, 0, 6, 9, 2, 0, 6, 9, 0, 6, 9, 0, 5, 0, 9, 2, 2, 0, 2, 2, 5, 2, 0, 6, 0, 5, 0, 1, 1, 6, 0, 9, 5, 0, 2, 2, 0, 6, 8, 0, 7, 8, 1, 0, 8, 0, 6, 0, 8, 0, 8, 0, 2, 2, 0, 6, 0, 5, 1, 0, 6, 9, 0, 8, 0, 2, 6, 2, 0, 5, 1, 0, 6, 9, 0, 6, 9, 2, 0, 8, 6, 1, 0, 5, 0, 5, 8, 8, 0, 6, 2, 0, 5, 1, 1, 0, 6, 9, 0, 2, 2, 0, 0, 6, 1, 1, 0, 2, 0, 8, 0, 7, 9, 2, 0, 2, 6, 0, 5, 0, 6, 8, 1, 0, 6, 8, 0, 9, 0, 2, 2, 0, 8, 5, 0, 5, 9, 0, 7, 1, 0, 6, 9, 0, 2, 0, 6, 8, 1, 0, 1, 7, 0, 6, 8, 0, 7, 0, 5, 8, 1, 0, 9, 2, 0, 1, 0, 2, 0, 5, 9, 0, 7, 8, 1, 0, 6, 2, 0, 1, 0, 8, 0, 6, 0, 6, 0, 5, 1, 0, 6, 9, 0, 9, 0, 2, 6, 2, 0, 6, 6, 8, 0, 6, 1, 1, 0, 2, 0, 5, 1, 0, 9, 0, 6, 2, 8, 1, 0, 6, 2, 8, 0, 8, 1, 0, 2, 0, 6, 8, 0, 0, 9, 0, 6, 1, 1, 0, 6, 9, 0, 2, 6, 2, 2, 0, 8, 7, 1, 1, 0, 0, 6, 9, 2, 0, 6, 8, 0, 2, 0, 5, 2, 2, 2, 0, 1, 6, 1, 5, 5, 2, 0, 1, 2, 0, 6, 1, 9, 2, 0, 6, 9, 0, 5, 1, 1, 1, 0, 2, 2, 0, 8, 5, 2, 0, 0, 6, 1, 1, 1, 0, 2, 8, 0, 6, 0, 2, 6, 2, 0, 2, 5, 1, 6, 6, 1, 0, 5, 1, 9, 0, 2, 0, 6, 2, 8, 0, 6, 8, 1, 0, 0, 2, 5, 1, 1, 1, 1, 1, 0, 6, 2, 2, 1, 0, 2, 5, 2, 2, 0, 1, 6, 1, 1, 2, 0, 5, 0, 1, 6, 1, 1, 1, 1, 0, 2, 0, 0, 6, 1, 1, 0, 7, 1, 1, 0, 6, 8, 0, 6, 8, 0, 8, 5, 0, 8, 1, 0, 6, 9, 0, 9, 2, 0, 9, 0, 5, 1, 0, 8, 6, 6, 0, 5, 2, 2, 0, 5, 0, 5, 0, 9, 0, 2, 6, 2, 0, 2, 6, 0, 5, 1, 1, 0, 5, 2, 0, 8, 0, 8, 0, 8, 5, 0, 6, 9, 0, 6, 8, 0, 5, 9, 0, 9, 2, 2, 0, 9, 5, 1, 0, 5, 9, 0])
-    #agent.load("./save/teris1.h5") #Load old ai
+    # agent.load("./save/teris1.h5") #Load old ai
     batch_size = 128
     e = 0
     # for e in range(EPISODES):
@@ -123,14 +94,14 @@ def run_ai(parent_window, frame):
         canvas.pack()
         frame.pack()
         game = wr.reset_tetris(c=canvas, seed=seed)
-        #game = wr.reset_tetris(c=None, seed=seed)
-        #seed += 1
+        # game = wr.reset_tetris(c=None, seed=seed)
+        # seed += 1
         state = wr.output_data()
         state = np.reshape(state, [1, state_size])
         parent_window.update()
-        #first = r.randint(0, wr.action_space)
+        # first = r.randint(0, wr.action_space)
         # print(first)
-        #if e < EPISODES:
+        # if e < EPISODES:
         #   wr.act_hd(first) #RNG START
         for time in range(1500):
             parent_window.update()
@@ -163,6 +134,7 @@ def run_ai(parent_window, frame):
         if e % 30 == 0:
             agent.save("./save/tetris.h5")
         e += 1
+
 
 if __name__ == "__main__":
     root = Tk()
