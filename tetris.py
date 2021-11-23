@@ -74,7 +74,7 @@ class Tetris:
             "hd"     : 2,
             "pc"     : 3000
         }'''
-        self.score_table = {
+        '''self.score_table = {
             "single": 1000,
             "double": 3000,
             "triple": 5000,
@@ -91,6 +91,24 @@ class Tetris:
             "sd": 1,
             "hd": 2,
             "pc": 30000
+        }'''
+        self.score_table = {
+            "single": 1,
+            "double": 2,
+            "triple": 4,
+            "tetris": 8,
+            "tsm": 1,
+            "ts": 4,
+            "tsms": 2,
+            "tss": 8,
+            "tsmd": 12,
+            "tsd": 12,
+            "tst": 16,
+            "b2b": 0,
+            "combo": 0,
+            "sd": 0,
+            "hd": 0,
+            "pc": 12
         }
         for j in range(height()):
             self.play_field.append([])
@@ -201,7 +219,7 @@ class Tetris:
     def lock(self):  # For now unforgiving
         linescleared = set()
         for point in self.current_piece.get_coords():
-            if point.y == 14:
+            if point.y == 10:
                 self.active = False
             self.play_field[point.y][point.x] = Block(Tetromino.int_shape[self.current_piece.shapeName])
             line = True
@@ -353,9 +371,9 @@ class Tetris:
         data[28][7] = self.current_piece.shapeOrient/3
         data[28][8] = self.current_piece.x / 10
         data[28][9] = self.current_piece.y / 23
-        #for i, block in enumerate(self.current_piece.get_coords()):
-        #   data[block.y][block.x] = 0.5
-        # print(len(two_pac))
+        for i, block in enumerate(self.current_piece.get_coords()):
+           data[block.y][block.x] = 0.5
+        #print(len(two_pac))
         return data
 
     def reward(self):
