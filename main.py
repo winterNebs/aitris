@@ -182,13 +182,13 @@ while True:
             # update the the target network with new weights
             model_target.set_weights(model.get_weights())
             # Log details
-            template = "running reward: {:.2f} at episode {}, frame count {}"
-            print(template.format(running_reward, episode_count, frame_count))
-        if visualize:
-            if step % 10 == 0 or done:
-                v.add_point(env.tetris.total_score)
-                v.set_last(env.tetris.input_log)
-                v.add_decay(epsilon)
+            template = "running reward: {:.2f} at episode {}, frame count {}, best reward {}"
+            print(template.format(running_reward, episode_count, frame_count, best))
+
+        if step % 20 == 0 or done:
+            v.add_point(env.tetris.total_score)
+            v.set_last(env.tetris.input_log)
+            v.add_decay(epsilon)
         # Limit the state and reward history
         if len(rewards_history) > max_memory_length:
             del rewards_history[:1]
@@ -212,8 +212,6 @@ while True:
 
     canvas.destroy()
     best = max(best,episode_reward)
-    if episode_count % 100 == 0:
-        print(episode_count, best)
 
 def on_close():
 
