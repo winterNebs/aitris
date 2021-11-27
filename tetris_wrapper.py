@@ -11,7 +11,7 @@ class wrapper:
         self.tetris.input_c(hds[action % len(hds)])
         #self.tetris.input_c([action])
         # return next state, reward, done
-        return np.array(self.output_data())[:-7, :], self.tetris.reward(), not self.tetris.active
+        return self.output_formatted_data(), self.tetris.reward(), not self.tetris.active
 
     def reset_tetris(self, c=None, seed=1):
         self.tetris = Tetris(c, seed)
@@ -26,3 +26,8 @@ class wrapper:
         #return finder.data
         return self.tetris.output_data()
         #return [[1 if y > 0 else 0 for y in x] for x in self.tetris.output_data()]
+
+    def output_formatted_data(self):
+        data = np.array(self.output_data())
+        concat = np.concatenate((data[:2, :], data[12:-7, :]))
+        return concat

@@ -5,7 +5,7 @@ import tensorflow as tf
 import numpy as np
 from numpy.random import default_rng
 from tensorflow import keras
-from tensorflow.keras import layers
+from tensorflow.keras import layers, initializers
 
 seed = 1
 gamma = 0.99
@@ -22,14 +22,18 @@ num_actions = env.action_space
 
 
 def create_q_network():
-    inputs = layers.Input(shape=(22,10,1,))
+    init = initializers.HeUniform()
+    inputs = layers.Input(shape=(12,10,1,) )
 
-    layer1 = layers.Conv2D(32,2,1, activation="relu")(inputs)
+    layer1 = layers.Conv2D(32, 4, 1, activation="relu", kernel_initializer=init)(inputs)
+    layer2 = layers.Conv2D(32, 2, 1, activation="relu", kernel_initializer=init)(layer1)
+    #layer2 = layers.Conv1D(16, 1, activation="relu", kernel_initializer=init)(layer1)
 
-    layer2 = layers.Flatten()(layer1)
+    layer3 = layers.Flatten()(layer2)
 
-    layer3 = layers.Dense(512, activation="relu")(layer2)
-    action = layers.Dense(num_actions, activation="linear")(layer3)
+    layer4 = layers.Dense(1024, activation="relu", kernel_initializer=init)(layer3)
+    layer5 = layers.Dense(512, activation="relu", kernel_initializer=init)(layer4)
+    action = layers.Dense(num_actions, activation="linear", kernel_initializer=init)(layer5)
 
     return keras.Model(inputs=inputs, outputs=action)
 
@@ -84,7 +88,7 @@ toggle_btn.pack(pady=5)
 
 frame = tk.Frame(root, width=1000, height=1000)
 v = vis(root)
-
+best = 0
 while True:
     root.title("AI #" + str(1))
 
@@ -93,7 +97,7 @@ while True:
     frame.pack()
 
     env.reset_tetris(c=canvas)
-    state = env.output_data()[:-7, :]
+    state = env.output_formatted_data()
     episode_reward = 0
 
     for step in range(max_steps_per_episode):
@@ -105,9 +109,9 @@ while True:
             env.tetris.play_field_canvas = canvas
         else:
             env.tetris.play_field_canvas = None
-        if frame_count < epsilon_random_frames or epsilon > np.random.rand(1)[0]:
+        if frame_count < epsilon_random_frames or epsilon > rng.random():
             # Take random action
-            action = np.random.choice(num_actions)
+            action = rng.choice(num_actions)
         else:
             # Predict action Q-values
             # From environment state
@@ -205,11 +209,14 @@ while True:
 
     episode_count += 1
 
-    if running_reward > 100000:  # Condition to consider the task solved
-        print("Solved at episode {}!".format(episode_count))
-        break
-    canvas.destroy()
 
-    print(frame_count, episode_reward)
+    canvas.destroy()
+    best = max(best,episode_reward)
+    if episode_count % 100 == 0:
+        print(episode_count, best)
+
+def on_close():
+
+    root.destroy()
 
 root.mainloop()

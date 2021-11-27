@@ -44,7 +44,7 @@ class vis:
         #self.ax4.grid()
         #self.ax4.set_title("Move History")
         #self.ax4.hist(input, color="red", weights=np.zeros_like(input) + 100. / len(input))
-        #self.ax4.hist(self.last_data, color="black", alpha=0.15, weights=np.zeros_like(self.last_data) + 100. / len(self.last_data))
+        #self.ax4.hist(self.last_data, colior="black", alpha=0.15, weights=np.zeros_like(self.last_data) + 100. / len(self.last_data))
 
         self.graph.draw()
 
