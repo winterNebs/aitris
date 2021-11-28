@@ -20,20 +20,31 @@ env = wrapper()
 
 num_actions = env.action_space
 
-
+# using this cnn framework https://www.askforgametask.com/tutorial/machine-learning/ai-plays-tetris-with-cnn/
+# mostly tuning hyperparameters for cnn, but using tanh activation and categorical crossentropy for loss
 def create_q_network():
     init = initializers.HeUniform()
     inputs = layers.Input(shape=(12,10,1,) )
 
-    layer1 = layers.Conv2D(32, 4, 1, activation="relu", kernel_initializer=init)(inputs)
-    layer2 = layers.Conv2D(32, 2, 1, activation="relu", kernel_initializer=init)(layer1)
+    #layer1 = layers.Conv2D(32, 4, 1, activation="relu", kernel_initializer=init)(inputs)
+    #layer2 = layers.Conv2D(32, 2, 1, activation="relu", kernel_initializer=init)(layer1)
     #layer2 = layers.Conv1D(16, 1, activation="relu", kernel_initializer=init)(layer1)
 
-    layer3 = layers.Flatten()(layer2)
+    #layer3 = layers.Flatten()(layer2)
 
-    layer4 = layers.Dense(1024, activation="relu", kernel_initializer=init)(layer3)
-    layer5 = layers.Dense(512, activation="relu", kernel_initializer=init)(layer4)
-    action = layers.Dense(num_actions, activation="linear", kernel_initializer=init)(layer5)
+    #layer4 = layers.Dense(1024, activation="relu", kernel_initializer=init)(layer3)
+    #layer5 = layers.Dense(512, activation="relu", kernel_initializer=init)(layer4)
+    #action = layers.Dense(num_actions, activation="linear", kernel_initializer=init)(layer5)
+
+    layer1 = layers.Conv2D(32, 5, 1, activation="tanh")(inputs)
+    layer2 = layers.Conv2D(64, 3, 1, activation="tanh")(layer1)
+    layer3 = layers.Conv2D(128, 3, 1, activation="tanh")(layer2)
+
+    layer4 = layers.Flatten()(layer3)
+
+    layer5 = layers.Dense(256, activation="tanh")(layer4)
+    layer6 = layers.Dense(44, activation="tanh")(layer5)
+    action = layers.Dense(num_actions, activation="softmax")(layer6)
 
     return keras.Model(inputs=inputs, outputs=action)
 
@@ -42,7 +53,7 @@ model = create_q_network()
 
 model_target = create_q_network()
 
-optimizer = keras.optimizers.Adam(learning_rate=0.00025, clipnorm=1.0)
+optimizer = keras.optimizers.Adam(learning_rate=0.0005, clipnorm=1.0)
 
 action_history = []
 state_history = []
@@ -64,7 +75,7 @@ update_after_actions = 4
 # How often to update the target network
 update_target_network = 10000
 # Using huber loss for stability
-loss_function = keras.losses.Huber()
+loss_function = keras.losses.CategoricalCrossentropy()
 
 rng = default_rng()
 
