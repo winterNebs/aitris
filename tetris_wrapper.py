@@ -1,10 +1,12 @@
 from tetris import *
 import movefinder as mf
 import numpy as np
+from collections import deque
 
 class wrapper:
     action_space = 34
     #action_space = 10
+
     def act_hd(self, action):
         finder = mf.finder(self.tetris.output_data())
         hds = finder.hard_drops()
@@ -15,6 +17,9 @@ class wrapper:
 
     def reset_tetris(self, c=None, seed=1):
         self.tetris = Tetris(c, seed)
+        self.buffer = deque(maxlen=4)
+        for _ in range(4):
+            self.buffer.append(np.zeros(shape=(12,10,)))
         return self.tetris
 
     def __init__(self, c=None, seed=1):
@@ -30,4 +35,5 @@ class wrapper:
     def output_formatted_data(self):
         data = np.array(self.output_data())
         concat = np.concatenate((data[:2, :], data[12:-7, :]))
-        return concat
+        self.buffer.append(concat)
+        return np.moveaxis(np.array(self.buffer),0,-1)

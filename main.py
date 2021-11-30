@@ -23,10 +23,10 @@ num_actions = env.action_space
 
 def create_q_network():
     init = initializers.HeUniform()
-    inputs = layers.Input(shape=(12,10,1,) )
+    inputs = layers.Input(shape=(12,10,4,))
 
-    layer1 = layers.Conv2D(32, 4, 1, activation="relu", kernel_initializer=init)(inputs)
-    layer2 = layers.Conv2D(32, 2, 1, activation="relu", kernel_initializer=init)(layer1)
+    layer1 = layers.Conv2D(32, 8, strides=2, activation="relu", kernel_initializer=init)(inputs)
+    layer2 = layers.Conv2D(64, 2, strides=1, activation="relu", kernel_initializer=init)(layer1)
     #layer2 = layers.Conv1D(16, 1, activation="relu", kernel_initializer=init)(layer1)
 
     layer3 = layers.Flatten()(layer2)
@@ -105,7 +105,7 @@ while True:
         root.update()
         if visualize:
             v.plotter()
-            v.plot_eyes(state, env.tetris.input_log)
+           # v.plot_eyes(state[0], env.tetris.input_log)
             env.tetris.play_field_canvas = canvas
         else:
             env.tetris.play_field_canvas = None
@@ -185,7 +185,7 @@ while True:
             template = "running reward: {:.2f} at episode {}, frame count {}, best reward {}"
             print(template.format(running_reward, episode_count, frame_count, best))
 
-        if step % 20 == 0 or done:
+        if episode_count % 10 == 0 and done:
             v.add_point(env.tetris.total_score)
             v.set_last(env.tetris.input_log)
             v.add_decay(epsilon)
