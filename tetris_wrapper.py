@@ -10,8 +10,12 @@ class wrapper:
         hds = finder.hard_drops()
         self.tetris.input_c(hds[action % len(hds)])
         #self.tetris.input_c([action])
+
         # return next state, reward, done
-        return self.output_formatted_data(), self.tetris.reward(), not self.tetris.active
+        reward = self.tetris.reward()
+        if not self.tetris.active:
+            reward = -5
+        return self.output_formatted_data(), reward, not self.tetris.active
 
     def reset_tetris(self, c=None, seed=1):
         self.tetris = Tetris(c, seed)

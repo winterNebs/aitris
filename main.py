@@ -15,7 +15,7 @@ epsilon_min = 0.1
 epsilon_max = 1.0
 epsilon_interval = epsilon_max - epsilon_min
 batch_size = 32
-max_steps_per_episode = 10000
+max_steps_per_episode = 1000  # change this to less
 
 # Tetris environment
 env = wrapper()
@@ -88,11 +88,11 @@ toggle_btn.pack(pady=5)
 frame = tk.Frame(root, width=1000, height=1000)
 
 v = vis(root)
-best = 0
 
 # Perform Deep Q-Learning: 
 # Use an epsilon-greedy strategy to choose an action from the Q-network
 # Update the Q-network weights using the Experience Replay and Backpropagation algorithms
+best = -1000
 while True:
     root.title("AI #" + str(1))
 
@@ -100,7 +100,7 @@ while True:
     canvas.pack()
     frame.pack()
 
-    env.reset_tetris(c=canvas)
+    env.reset_tetris(c=canvas, seed=seed)
     state = env.output_formatted_data()
     episode_reward = 0
 
@@ -110,7 +110,7 @@ while True:
         root.update()
         if visualize:
             v.plotter()
-            v.plot_eyes(state, env.tetris.input_log)
+            #v.plot_eyes(state, env.tetris.input_log)
             env.tetris.play_field_canvas = canvas
         else:
             env.tetris.play_field_canvas = None
@@ -193,8 +193,11 @@ while True:
             template = "running reward: {:.2f} at episode {}, frame count {}, best reward {}"
             print(template.format(running_reward, episode_count, frame_count, best))
 
+
         # Update logs for visualizer
-        if step % 20 == 0 or done:
+
+        if episode_count % 10 == 0 and done:
+
             v.add_point(env.tetris.total_score)
             v.set_last(env.tetris.input_log)
             v.add_decay(epsilon)
@@ -205,7 +208,6 @@ while True:
             del state_next_history[:1]
             del action_history[:1]
             del done_history[:1]
-
 
         if done:
             break
