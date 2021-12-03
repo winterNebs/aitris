@@ -1,14 +1,14 @@
 # aitris
-My second attempt at a machine-learning block-falling-game solver.
+## Getting started:
 
-T Piece only demo: https://www.youtube.com/watch?v=zpp393LZ0XQ
+This project was developed in the PyCharm IDE. If you clone this project in pycharm everything should work properly. 
 
-Currently using a Deep Q-Learning model. 
-Training time took about 50 hours.
+To verify, run the main file and a window should pop up.
 
-Planning to upgrade hardware and rewrite the project entirely. 
-
-
--- Newest progress --
-https://i.imgur.com/eMNCj8E.gifv
-not bad I guess 
+If you are not using the pycharm project you need to install the following dependencies:
+```
+python 3.8
+tensorflow 2.7
+numpy 1.21.4
+matplotlib 3.5
+```
