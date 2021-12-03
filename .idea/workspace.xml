@@ -8,7 +8,11 @@
     <list default="true" id="8bb92ff5-9cb9-445c-8e98-de2bec3b88d6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movefinder.py" beforeDir="false" afterPath="$PROJECT_DIR$/movefinder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetris.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tetris_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetromino.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetromino.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualizer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,6 +288,7 @@
       <workItem from="1638388485722" duration="760000" />
       <workItem from="1638390449088" duration="3662000" />
       <workItem from="1638426457989" duration="1391000" />
+      <workItem from="1638494864569" duration="1848000" />
     </task>
     <task id="LOCAL-00001" summary="Change Log (2018-12-01):&#10;&#10;- Changed game from single move based turns, into a pseudo-positional&#10;turn base&#10;- Added an algorithm to simplify the playing field for hopefully &#10;stronger performance">
       <created>1543689461781</created>
@@ -341,7 +346,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638042200357</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="negative rewards">
+      <created>1638494890542</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1638494890542</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -408,7 +420,8 @@
     <MESSAGE value="CLEAN everything" />
     <MESSAGE value="Implement deep q-learning from keras examples https://keras.io/examples/rl/deep_q_network_breakout/" />
     <MESSAGE value="Reduce output state space to 12x10 (remove middle rows)&#10;Use HE uniform initialization" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reduce output state space to 12x10 (remove middle rows)&#10;Use HE uniform initialization" />
+    <MESSAGE value="negative rewards" />
+    <option name="LAST_COMMIT_MESSAGE" value="negative rewards" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

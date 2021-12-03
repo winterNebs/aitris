@@ -2,14 +2,20 @@ from tetris import *
 import movefinder as mf
 import numpy as np
 
+
+# Tetris environment wrapper
 class wrapper:
+
     action_space = 34
-    #action_space = 10
+
+    # Get next state based on action
+    # hd stands for "Hard Drop" which is the act of placing a piece
     def act_hd(self, action):
+        # Find valid placements
         finder = mf.finder(self.tetris.output_data())
         hds = finder.hard_drops()
+        # Input action based to environment
         self.tetris.input_c(hds[action % len(hds)])
-        #self.tetris.input_c([action])
 
         # return next state, reward, done
         reward = self.tetris.reward()
@@ -26,10 +32,7 @@ class wrapper:
         self.reset_tetris(c, seed)
 
     def output_data(self):
-        #finder = mf.finder(self.tetris.output_data())
-        #return finder.data
         return self.tetris.output_data()
-        #return [[1 if y > 0 else 0 for y in x] for x in self.tetris.output_data()]
 
     def output_formatted_data(self):
         data = np.array(self.output_data())

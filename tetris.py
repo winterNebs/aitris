@@ -56,42 +56,6 @@ class Tetris:
         self.input_log = []
         self.current_piece = self.next_piece()
 
-        '''self.score_table = {
-            "single" : 100,
-            "double" : 300,
-            "triple" : 500,
-            "tetris" : 800,
-            "tsm"    : 100,
-            "ts"     : 400,
-            "tsms"   : 200,
-            "tss"    : 800,
-            "tsmd"   : 1200,
-            "tsd"    : 1200,
-            "tst"    : 1600,
-            "b2b"    : 1.5,
-            "combo"  : 50,
-            "sd"     : 1,
-            "hd"     : 2,
-            "pc"     : 3000
-        }'''
-        '''self.score_table = {
-            "single": 1000,
-            "double": 3000,
-            "triple": 5000,
-            "tetris": 8000,
-            "tsm": 1000,
-            "ts": 4000,
-            "tsms": 2000,
-            "tss": 8000,
-            "tsmd": 12000,
-            "tsd": 12000,
-            "tst": 16000,
-            "b2b": 3,
-            "combo": 500,
-            "sd": 1,
-            "hd": 2,
-            "pc": 30000
-        }'''
         self.score_table = {
             "single": 1,
             "double": 2,
@@ -110,10 +74,12 @@ class Tetris:
             "hd": 0,
             "pc": 12
         }
+        # create board
         for j in range(height()):
             self.play_field.append([])
             for i in range(width()):
                 self.play_field[j].append(Block(0))
+        # create playing field
         if self.play_field_canvas is not None:
             for j, row in enumerate(self.play_field):
                 self.blocks.append([])
@@ -129,6 +95,7 @@ class Tetris:
                 self.queue_display.append(self.play_field_canvas.create_polygon(Tetromino.icon[self.queue[i]]))
             self.render()
 
+    # hold piece
     def hold_piece(self):
         if self.locked:
             if self.hold.shapeName != 'n':
@@ -138,7 +105,7 @@ class Tetris:
                 self.current_piece = self.next_piece()
             self.locked = False
             self.rotated = False
-
+    # get next piece
     def next_piece(self):
         while len(self.queue) < 150:  # generate first 150 blocks
             bag = pieces()
@@ -146,7 +113,7 @@ class Tetris:
             self.queue.extend(bag)
             #self.queue.append('t')
         return Tetromino(self.queue.pop(0))
-
+    # render functionh
     def render(self):
         for j, row in enumerate(self.play_field):
             for i, block in enumerate(row):
@@ -161,7 +128,8 @@ class Tetris:
             self.play_field_canvas.delete(self.queue_display[i])
             self.queue_display[i] = self.play_field_canvas.create_polygon(Tetromino.icon[self.queue[i]])
             self.play_field_canvas.move(self.queue_display[i], (size() * (width() + 6)), (2 * size() + (size() * i)))
-
+    # rotate function
+    # implements SRS (https://tetris.fandom.com/wiki/SRS)
     def rotate(self, direction):
         # Test Rotation Collisions
         # A->B = A - B
@@ -187,6 +155,7 @@ class Tetris:
                 self.current_piece.rotate(direction, i)  # 1 = CW, -1 = CCW
                 return
 
+    # move function
     def move(self, direction, times=1):
         while times > 0 or times == -1:
             if direction == 1:  # Right
@@ -216,6 +185,7 @@ class Tetris:
                 times -= 1
         self.rotated = False
 
+    # lock out function
     def lock(self):  # For now unforgiving
         linescleared = set()
         for point in self.current_piece.get_coords():
@@ -297,6 +267,7 @@ class Tetris:
         self.locked = True
         self.total_pieces += 1
 
+    # replay function, takes inputs and plays it
     def replay(self, i):
         commands = {
             'space': lambda: self.move(direction=2, times=-1),
@@ -322,6 +293,7 @@ class Tetris:
         if self.play_field_canvas is not None:
             self.render()
 
+    # takes a list of inputs and runs it
     def run_commands(self, i):
         command_list = i.split(", ")
         while len(command_list) > 0:
@@ -334,6 +306,7 @@ class Tetris:
         self.rotate(1)
         self.rotate(1)
 
+    # input commands
     def input_c(self, c):
         self.last_score = 0
         for i in range(len(c)):
@@ -359,6 +332,7 @@ class Tetris:
         if self.play_field_canvas is not None:
             self.render()
 
+    # output the gamestate to an array
     def output_data(self):
         data = np.zeros(shape=(29, 10))
         for j, row in enumerate(self.play_field):

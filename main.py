@@ -22,14 +22,17 @@ env = wrapper()
 
 num_actions = env.action_space
 
+
 # Construct the CNN structure to approximate the Q-values
 def create_q_network():
+
+    # Initialize using uniform distribution for better performance
     init = initializers.HeUniform()
-    inputs = layers.Input(shape=(12,10,1,) )
+    inputs = layers.Input(shape=(12, 10, 1,))
 
     layer1 = layers.Conv2D(32, 4, 1, activation="relu", kernel_initializer=init)(inputs)
     layer2 = layers.Conv2D(32, 2, 1, activation="relu", kernel_initializer=init)(layer1)
-    #layer2 = layers.Conv1D(16, 1, activation="relu", kernel_initializer=init)(layer1)
+    # layer2 = layers.Conv1D(16, 1, activation="relu", kernel_initializer=init)(layer1)
 
     layer3 = layers.Flatten()(layer2)
 
@@ -38,6 +41,7 @@ def create_q_network():
     action = layers.Dense(num_actions, activation="linear", kernel_initializer=init)(layer5)
 
     return keras.Model(inputs=inputs, outputs=action)
+
 
 # Initiialize main and target CNNs
 model = create_q_network()
@@ -71,9 +75,11 @@ loss_function = keras.losses.Huber()
 
 rng = default_rng()
 
+# create GUI window
 root = tk.Tk()
 
 visualize = True
+
 
 # Visual toggler to speed up training process while maintaining ability to visually see progress when necessary
 def toggle():
@@ -83,6 +89,8 @@ def toggle():
         toggle_btn.config(relief="raised")
     else:
         toggle_btn.config(relief="sunken")
+
+
 toggle_btn = tk.Button(text="togglevisual", relief="raised", command=toggle)
 toggle_btn.pack(pady=5)
 frame = tk.Frame(root, width=1000, height=1000)
@@ -94,12 +102,14 @@ v = vis(root)
 # Update the Q-network weights using the Experience Replay and Backpropagation algorithms
 best = -1000
 while True:
-    root.title("AI #" + str(1))
 
+    # GUI Stuff
+    root.title("AI #" + str(1))
     canvas = tk.Canvas(frame, width=400, height=600)
     canvas.pack()
     frame.pack()
 
+    # reset environment
     env.reset_tetris(c=canvas, seed=seed)
     state = env.output_formatted_data()
     episode_reward = 0
@@ -110,7 +120,6 @@ while True:
         root.update()
         if visualize:
             v.plotter()
-            #v.plot_eyes(state, env.tetris.input_log)
             env.tetris.play_field_canvas = canvas
         else:
             env.tetris.play_field_canvas = None
@@ -193,11 +202,9 @@ while True:
             template = "running reward: {:.2f} at episode {}, frame count {}, best reward {}"
             print(template.format(running_reward, episode_count, frame_count, best))
 
-
         # Update logs for visualizer
 
         if episode_count % 10 == 0 and done:
-
             v.add_point(env.tetris.total_score)
             v.set_last(env.tetris.input_log)
             v.add_decay(epsilon)
@@ -221,10 +228,11 @@ while True:
     episode_count += 1
 
     canvas.destroy()
-    best = max(best,episode_reward)
+    best = max(best, episode_reward)
+
 
 def on_close():
-
     root.destroy()
+
 
 root.mainloop()

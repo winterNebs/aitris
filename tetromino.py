@@ -7,7 +7,8 @@ class Point:
     def __sub__(self, other):
         return Point(self.x - other.x, self.y - other.y)
 
-
+# implement standard tetris
+# read more here https://tetris.fandom.com/wiki/SRS
 class Tetromino:
     shapes = {
         'n': [[]],
