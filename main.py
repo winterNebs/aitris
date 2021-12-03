@@ -7,6 +7,7 @@ from numpy.random import default_rng
 from tensorflow import keras
 from tensorflow.keras import layers, initializers
 
+# Hyperparameters for Deep Q-Learning
 seed = 1
 gamma = 0.99
 epsilon = 1.0
@@ -16,11 +17,12 @@ epsilon_interval = epsilon_max - epsilon_min
 batch_size = 32
 max_steps_per_episode = 1000  # change this to less
 
+# Tetris environment
 env = wrapper()
 
 num_actions = env.action_space
 
-
+# Construct the CNN structure to approximate the Q-values
 def create_q_network():
     init = initializers.HeUniform()
     inputs = layers.Input(shape=(12,10,1,) )
@@ -37,13 +39,14 @@ def create_q_network():
 
     return keras.Model(inputs=inputs, outputs=action)
 
-
+# Initiialize main and target CNNs
 model = create_q_network()
-
 model_target = create_q_network()
 
+# Use Adam optimizer in updating weights
 optimizer = keras.optimizers.Adam(learning_rate=0.00025, clipnorm=1.0)
 
+# Parameters to keep track of agent's history
 action_history = []
 state_history = []
 state_next_history = []
@@ -59,7 +62,7 @@ epsilon_greedy_frames = 1000000
 # Maximum replay length
 # Note: The Deepmind paper suggests 1000000 however this causes memory issues
 max_memory_length = 100000
-# Train the model after 4 actions
+# Train the main network after 4 actions
 update_after_actions = 4
 # How often to update the target network
 update_target_network = 10000
@@ -72,22 +75,23 @@ root = tk.Tk()
 
 visualize = True
 
-
+# Visual toggler to speed up training process while maintaining ability to visually see progress when necessary
 def toggle():
     global visualize, toggle_btn
     visualize = not visualize
     if toggle_btn.config('relief')[-1] == 'sunken':
         toggle_btn.config(relief="raised")
-
     else:
         toggle_btn.config(relief="sunken")
-
-
 toggle_btn = tk.Button(text="togglevisual", relief="raised", command=toggle)
 toggle_btn.pack(pady=5)
-
 frame = tk.Frame(root, width=1000, height=1000)
+
 v = vis(root)
+
+# Perform Deep Q-Learning: 
+# Use an epsilon-greedy strategy to choose an action from the Q-network
+# Update the Q-network weights using the Experience Replay and Backpropagation algorithms
 best = -1000
 while True:
     root.title("AI #" + str(1))
@@ -100,6 +104,7 @@ while True:
     state = env.output_formatted_data()
     episode_reward = 0
 
+    # Perform episode
     for step in range(max_steps_per_episode):
         frame_count += 1
         root.update()
@@ -109,6 +114,7 @@ while True:
             env.tetris.play_field_canvas = canvas
         else:
             env.tetris.play_field_canvas = None
+        # Implement epsilon-greedy algorithm
         if frame_count < epsilon_random_frames or epsilon > rng.random():
             # Take random action
             action = rng.choice(num_actions)
@@ -121,10 +127,11 @@ while True:
             # Take best action
             action = tf.argmax(action_probs[0]).numpy()
 
+        # epsilon decay
         epsilon -= epsilon_interval / epsilon_greedy_frames
         epsilon = max(epsilon, epsilon_min)
 
-        # Apply the sampled action in our environment
+        # Apply the chosen action in our environment
         state_next, reward, done = env.act_hd(action)
         state_next = np.array(state_next)
 
@@ -174,10 +181,11 @@ while True:
                 # Calculate loss between new Q-value and old Q-value
                 loss = loss_function(updated_q_values, q_action)
 
-            # Backpropagation
+            # Backpropagation to update main network weights
             grads = tape.gradient(loss, model.trainable_variables)
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
 
+        # Update the target network weights with the main network weights based on "update_target_network" variable
         if frame_count % update_target_network == 0:
             # update the the target network with new weights
             model_target.set_weights(model.get_weights())
@@ -185,7 +193,11 @@ while True:
             template = "running reward: {:.2f} at episode {}, frame count {}, best reward {}"
             print(template.format(running_reward, episode_count, frame_count, best))
 
+
+        # Update logs for visualizer
+
         if episode_count % 10 == 0 and done:
+
             v.add_point(env.tetris.total_score)
             v.set_last(env.tetris.input_log)
             v.add_decay(epsilon)
@@ -200,14 +212,13 @@ while True:
         if done:
             break
 
-        # Update running reward to check condition for solving
+    # Update running reward to check condition for termination
     episode_reward_history.append(episode_reward)
     if len(episode_reward_history) > 100:
         del episode_reward_history[:1]
     running_reward = np.mean(episode_reward_history)
 
     episode_count += 1
-
 
     canvas.destroy()
     best = max(best,episode_reward)
