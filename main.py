@@ -87,9 +87,12 @@ toggle_btn = tk.Button(text="togglevisual", relief="raised", command=toggle)
 toggle_btn.pack(pady=5)
 frame = tk.Frame(root, width=1000, height=1000)
 
-# Update the Q-network weights using the Experience Replay and Backpropagation
 v = vis(root)
 best = 0
+
+# Perform Deep Q-Learning: 
+# Use an epsilon-greedy strategy to choose an action from the Q-network
+# Update the Q-network weights using the Experience Replay and Backpropagation algorithms
 while True:
     root.title("AI #" + str(1))
 
@@ -182,6 +185,7 @@ while True:
             grads = tape.gradient(loss, model.trainable_variables)
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
 
+        # Update the target network weights with the main network weights based on "update_target_network" variable
         if frame_count % update_target_network == 0:
             # update the the target network with new weights
             model_target.set_weights(model.get_weights())
@@ -189,6 +193,7 @@ while True:
             template = "running reward: {:.2f} at episode {}, frame count {}, best reward {}"
             print(template.format(running_reward, episode_count, frame_count, best))
 
+        # Update logs for visualizer
         if step % 20 == 0 or done:
             v.add_point(env.tetris.total_score)
             v.set_last(env.tetris.input_log)
@@ -212,7 +217,7 @@ while True:
     running_reward = np.mean(episode_reward_history)
 
     episode_count += 1
-    
+
     canvas.destroy()
     best = max(best,episode_reward)
 
